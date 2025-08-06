@@ -11,16 +11,21 @@ using Microsoft.Extensions.Options;
 using SQKLocalServe.Business.Services.Auth;
 using SQKLocalServe.Contract.Validators;
 using FluentValidation;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
+using NLog;
+using NLog.Web;
 using SQKLocalServe.Business.Services;
 using SQKLocalServe.Business.Services.Interfaces;
 using SQKLocalServe.Contract.DTOs;
 
+var logger = LogManager.Setup()                // ① bootstrap NLog
+    .LoadConfigurationFromFile("nlog.config")
+    .GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -79,11 +84,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // Add custom middleware
 app.UseMiddleware<ExceptionHandlingMiddleware>();

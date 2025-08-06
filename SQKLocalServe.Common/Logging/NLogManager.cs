@@ -1,37 +1,15 @@
 using NLog;
-using ILogger = NLog.ILogger;
 
-namespace SQKLocalServe.Common.Logging;
-
-public interface ILogManager
+public sealed class NLogManager : ILogManager
 {
-    void LogInfo(string message);
-    void LogWarning(string message);
-    void LogError(string message);
-    void LogError(Exception ex, string message = "");
-}
+    private readonly Logger _logger;
 
-public class NLogManager : ILogManager
-{
-    private static readonly ILogger logger = LogManager.GetCurrentClassLogger();
-
-    public void LogInfo(string message)
+    public NLogManager()
     {
-        logger.Info(message);
+        _logger = LogManager.GetCurrentClassLogger();
     }
 
-    public void LogWarning(string message)
-    {
-        logger.Warn(message);
-    }
-
-    public void LogError(string message)
-    {
-        logger.Error(message);
-    }
-
-    public void LogError(Exception ex, string message = "")
-    {
-        logger.Error(ex, message);
-    }
+    public void LogInfo(string message) => _logger.Info(message);
+    public void LogError(string message) => _logger.Error(message);
+    public void LogError(Exception ex, string msg) => _logger.Error(ex, msg);
 }

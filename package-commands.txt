@@ -1,0 +1,6 @@
+Run these commands to add the necessary NLog packages:
+
+dotnet add package NLog --version 5.2.8
+dotnet add package NLog.Web.AspNetCore --version 5.3.8
+
+These packages provide the core NLog functionality and the integration with ASP.NET Core.
