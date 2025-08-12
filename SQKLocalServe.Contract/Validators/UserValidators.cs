@@ -1,2 +1,0 @@
-namespace SQKLocalServe.Contract.Validators;
-
