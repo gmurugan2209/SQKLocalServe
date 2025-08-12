@@ -1,6 +1,0 @@
-@SQKLocalServe_1_HostAddress = http://localhost:5195
-
-GET {{SQKLocalServe_1_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
